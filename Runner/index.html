@@ -1,0 +1,58 @@
+
+<script>document.addEventListener('DOMContentLoaded', function() {
+    const baseURL = 'https://raw.githubusercontent.com/Stinky7thgraders/Stinky7thgraders.github.io/main/';
+
+    const fileList = [
+        'index.html', // Main HTML file
+        'Assests/CSS/main.css', // CSS file
+        'Assests/CSS/style.css', // CSS file
+        'Assests/CSS/theme.css', // CSS file
+        'Assests/JS/script.js', // JS file
+    ];
+
+    function fetchAndInject(url, type) {
+        fetch(url)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.text();
+            })
+            .then(data => {
+                if (type === 'css') {
+                    const style = document.createElement('style');
+                    style.textContent = data;
+                    document.head.appendChild(style);
+                } else if (type === 'js') {
+                    const script = document.createElement('script');
+                    script.textContent = data;
+                    document.body.appendChild(script);
+                } else if (type === 'html') {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(data, 'text/html');
+                    const contentDiv = document.createElement('div');
+                    contentDiv.innerHTML = doc.body.innerHTML;
+                    document.body.appendChild(contentDiv);
+
+                    // Inject head elements
+                    Array.from(doc.head.children).forEach(child => {
+                        document.head.appendChild(child);
+                    });
+                }
+            })
+            .catch(error => console.error(`Error loading ${type.toUpperCase()}:`, error));
+    }
+
+    fileList.forEach(file => {
+        if (file.endsWith('.css')) {
+            fetchAndInject(baseURL + file, 'css');
+        } else if (file.endsWith('.js')) {
+            fetchAndInject(baseURL + file, 'js');
+        } else if (file.endsWith('.html')) {
+            fetchAndInject(baseURL + file, 'html');
+        }
+    });
+});
+
+
+</script>
