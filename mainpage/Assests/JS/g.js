@@ -4,7 +4,7 @@ const IFrame = document.querySelector(".Projects-IFrame");
 
 async function addGames() {
   try {
-    const cdn = await (await fetch("./Hosting/CDN.json")).json();
+    const cdn = await (await fetch("https://raw.githubusercontent.com/david100awesome/s7g/main/mainpage/Hosting/CDN.json")).json();
     const games = await (await fetch(cdn + "list.json")).json();
     games.sort((a, b) => a.game.localeCompare(b.game));
 
@@ -15,7 +15,7 @@ async function addGames() {
                 <img src="${cdn}/Icons/${game.game.replace(
         /[.\s]/g,
         ""
-      )}.webp" loading="lazy" onerror="this.src='./Assests/Imgs/NoIcon.png'"/>
+      )}.webp" loading="lazy" onerror="this.src='https://raw.githubusercontent.com/david100awesome/s7g/main/mainpage/Assests/Imgs/NoIcon.png'"/>
                 <h1>${game.game}</h1>`;
       document.querySelector(".Projects-Container").appendChild(project);
 
