@@ -5,7 +5,7 @@ const IFrame = document.querySelector(".Projects-IFrame");
 async function addGames() {
   try {
     const cdn = await (await fetch("https://raw.githubusercontent.com/david100awesome/s7g/main/mainpage/Hosting/CDN.json")).json();
-    const games = await (await fetch(cdn + "list.json")).json();
+    const games = await (await fetch("https://raw.githubusercontent.com/david100awesome/s7g/main/railing/list.json")).json();
     games.sort((a, b) => a.game.localeCompare(b.game));
 
     for (const game of games) {
